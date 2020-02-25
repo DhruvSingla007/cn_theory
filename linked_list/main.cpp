@@ -82,11 +82,12 @@ int length(Node *head) {
 
 
 
-void printLinkedList(Node *head) {
-    while (head != nullptr) {
-        cout << head->data << " ";
-        head = head->next;
+void printLinkedList(Node *&head) {
+    if (head == nullptr) {
+        return;
     }
+    cout << head->data << " ";
+    printLinkedList(head->next);
 }
 
 //===========================================================================
@@ -144,19 +145,21 @@ void insertNode(Node *&head, int i, int data) {
         temp = temp->next;
     }
 
-    if (temp != nullptr) {
-        Node *tempNext = temp->next;
-        Node *newNode = new Node(data);
-        temp->next = newNode;
-        newNode->next = tempNext;
+    if(i>1 && temp->next == nullptr){
+        return;
     }
+
+    Node *tempNext = temp->next;
+    Node *newNode = new Node(data);
+    temp->next = newNode;
+    newNode->next = tempNext;
 }
 
 //===========================================================================
 
 // insert node at ith index using recursion
 
-Node *insertNodeRec(Node* head, int i, int data) {
+Node *insertNodeRec(Node *head, int i, int data) {
     if (head == nullptr) {
         return head;
     }
@@ -202,17 +205,17 @@ void deleteNode(Node *&head, int i) {
 
 // delete node at ith index using recursion
 
-Node* deleteNodeRec(Node *head, int i) {
-    if(head == nullptr){
+Node *deleteNodeRec(Node *head, int i) {
+    if (head == nullptr) {
         return head;
     }
 
-    if(i == 0){
+    if (i == 0) {
         head = head->next;
         return head;
     }
 
-    Node* temp = deleteNodeRec(head->next,i-1);
+    Node *temp = deleteNodeRec(head->next, i - 1);
     head->next = temp;
     return head;
 }
@@ -223,7 +226,7 @@ Node* deleteNodeRec(Node *head, int i) {
 
 // length of node recursively
 
-int length2(Node* &head) {
+int length2(Node *&head) {
     if (head == nullptr) {
         return 0;
     }
@@ -241,11 +244,17 @@ int main() {
 //    n1->next = n2;
 //    n2->next = n3;
 
-    Node *head = takeInput();
+    Node *head = takeInput2();
+
+//    cout << head->data << endl;
 
     printLinkedList(head);
 
-    cout << endl;
+//    cout << endl;
+//
+//    cout << head->data << endl;
+//
+//    cout << endl;
 
     // print ith node
 //    cout<<head->data<<endl;
@@ -276,6 +285,7 @@ int main() {
 //    head = deleteNodeRec(head, 0);
 //    printLinkedList(head);
 
-    insertNode(head,2,5);
+    cout << endl;
+    insertNode(head, 2, 5);
     printLinkedList(head);
 }
